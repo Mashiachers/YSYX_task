@@ -1,0 +1,7 @@
+# Logisim autosave files
+.*.autosave
+*.bak
+
+# Python cache
+__pycache__/
+*.pyc
