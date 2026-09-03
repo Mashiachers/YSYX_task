@@ -5651,4 +5651,55 @@
     <wire from="(830,200)" to="(830,250)"/>
     <wire from="(930,420)" to="(950,420)"/>
   </circuit>
+  <circuit name="OnesComplementAdder_2">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="OnesComplementAdder_2"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(320,310)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="A"/>
+      <a name="width" val="4"/>
+    </comp>
+    <comp lib="0" loc="(320,330)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="B"/>
+      <a name="width" val="4"/>
+    </comp>
+    <comp lib="0" loc="(810,270)" name="Ground"/>
+    <comp lib="0" loc="(830,200)" name="Splitter">
+      <a name="appear" val="right"/>
+      <a name="facing" val="west"/>
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="4"/>
+    </comp>
+    <comp lib="0" loc="(950,420)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="S"/>
+      <a name="type" val="output"/>
+      <a name="width" val="4"/>
+    </comp>
+    <comp lib="9" loc="(808,123)" name="Text">
+      <a name="text" val="不加1"/>
+    </comp>
+    <comp loc="(640,310)" name="adder_4bit"/>
+    <comp loc="(930,420)" name="adder_4bit"/>
+    <wire from="(320,310)" to="(420,310)"/>
+    <wire from="(320,330)" to="(420,330)"/>
+    <wire from="(640,310)" to="(670,310)"/>
+    <wire from="(640,330)" to="(690,330)"/>
+    <wire from="(670,310)" to="(670,420)"/>
+    <wire from="(670,420)" to="(710,420)"/>
+    <wire from="(690,160)" to="(690,330)"/>
+    <wire from="(690,160)" to="(810,160)"/>
+    <wire from="(700,250)" to="(700,440)"/>
+    <wire from="(700,250)" to="(830,250)"/>
+    <wire from="(700,440)" to="(710,440)"/>
+    <wire from="(810,170)" to="(810,180)"/>
+    <wire from="(810,180)" to="(810,190)"/>
+    <wire from="(810,190)" to="(810,270)"/>
+    <wire from="(830,200)" to="(830,250)"/>
+    <wire from="(930,420)" to="(950,420)"/>
+  </circuit>
 </project>
