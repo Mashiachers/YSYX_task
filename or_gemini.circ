@@ -5603,6 +5603,10 @@
       <a name="size" val="30"/>
     </comp>
     <comp lib="1" loc="(700,190)" name="AND Gate">
+      <a name="negate0" val="true"/>
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="1" loc="(770,160)" name="OR Gate">
       <a name="size" val="30"/>
     </comp>
     <comp lib="9" loc="(808,123)" name="Text">
@@ -5626,23 +5630,21 @@
     <wire from="(420,190)" to="(590,190)"/>
     <wire from="(630,200)" to="(670,200)"/>
     <wire from="(640,310)" to="(670,310)"/>
-    <wire from="(640,330)" to="(780,330)"/>
     <wire from="(650,180)" to="(650,220)"/>
-    <wire from="(650,180)" to="(670,180)"/>
+    <wire from="(650,180)" to="(660,180)"/>
     <wire from="(650,220)" to="(680,220)"/>
     <wire from="(660,300)" to="(680,300)"/>
     <wire from="(670,310)" to="(670,420)"/>
     <wire from="(670,420)" to="(710,420)"/>
     <wire from="(680,220)" to="(680,300)"/>
-    <wire from="(700,150)" to="(750,150)"/>
-    <wire from="(700,190)" to="(710,190)"/>
+    <wire from="(700,150)" to="(740,150)"/>
+    <wire from="(700,190)" to="(730,190)"/>
     <wire from="(700,250)" to="(700,440)"/>
     <wire from="(700,250)" to="(830,250)"/>
     <wire from="(700,440)" to="(710,440)"/>
-    <wire from="(710,170)" to="(710,190)"/>
-    <wire from="(710,170)" to="(750,170)"/>
-    <wire from="(780,160)" to="(780,330)"/>
-    <wire from="(780,160)" to="(810,160)"/>
+    <wire from="(730,170)" to="(730,190)"/>
+    <wire from="(730,170)" to="(740,170)"/>
+    <wire from="(770,160)" to="(810,160)"/>
     <wire from="(810,170)" to="(810,180)"/>
     <wire from="(810,180)" to="(810,190)"/>
     <wire from="(810,190)" to="(810,270)"/>
