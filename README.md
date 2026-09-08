@@ -2,25 +2,27 @@
 
 本项目为在**中国科学院计算技术研究所 / 南京大学**等联合发起的「**一生一芯（One Student One Chip）**」预学习准备阶段（F阶段）中，基于 **Logisim-evolution 4.1.0** 自主设计、仿真、调试并形式化验证的全部数字逻辑电路工程库。
 
+🎉 **里程碑达成：F3 阶段全部电路与时序微架构设计圆满收官（100% Completed）！**
+
 ---
 
 ## 📚 长期维护的工程设计与调试全纪录
 > **👉 [点击查阅：F3 全程设计与调试实战演进日志 (F3_CIRCUIT_DESIGN_AND_DEBUG_LOG.md)](./F3_CIRCUIT_DESIGN_AND_DEBUG_LOG.md)**  
-> 记录每一次电路迭代的**设计动机、踩坑现象、假设验证、底层物理成因（Root Cause）、架构演进与体系结构哲学**（从 CMOS 物理门、优先编码器三次攻坚、原码加法器 SMA1/SMA2 重构，到反码与补码，长期维护更新至 F3 完全结束）。
+> 详细记录全阶段 10 个章节的**设计动机、踩坑现象、假设验证、底层物理成因（Root Cause）、架构演进与体系结构哲学**（从 CMOS 物理门、优先编码器三次攻坚、原码加法器 SMA1/SMA2 重构、反码与补码，到主从触发器、同步状态机、1~10 自然数累加器与 60 进制工业级数字钟）。
 
 ---
 
 ## 📁 仓库文件结构
 
-* **`or_gemini.circ`**：最新全量工程电路源文件（包含当前主电路 `OnesComplementAdder` 及全部 28 个子电路）；
+* **`or_gemini.circ`**：最新全量工程电路源文件（包含全部 48 个子电路与顶层微架构）；
 * **`digital_circuits.circ`**：稳定版全量工程电路归档；
-* **`F3_CIRCUIT_DESIGN_AND_DEBUG_LOG.md`**：**【核心官方日志】全程设计与调试实战演进日志（长期更新）**；
+* **`F3_CIRCUIT_DESIGN_AND_DEBUG_LOG.md`**：**【核心官方日志】全程设计与调试实战演进日志（长期维护，第 1~10 章全景完结）**；
 * **`digital_design_doc.md`**：系统级架构复盘与原理技术文档；
-* **`README.md`**：项目概览与使用指南。
+* **`README.md`**：项目概览与全量电路使用指南。
 
 ---
 
-## 🛠️ 当前包含的电路清单 (共 43 个电路模块)
+## 🛠️ 当前包含的电路清单 (共 48 个电路模块)
 
 ### 1. 物理晶体管与门电路层
 * `or_gate`：CMOS 互补对称或门（上拉 PMOS + 下拉 NMOS + 反相器）
@@ -35,6 +37,7 @@
 * `seven_code_16or10_trans`：数码管进制模式动态切换器
 * `encoder`：4-2 普通编码器
 * `encoder_privil`：4-2 优先编码器
+* `encoder_16to4` / `encoder_16to4_true`：16-4 优先编码器架构探索版
 * `encoder_16to4_true1`：16-4 优先编码器（**4 组独立 OR 门 + 行波互斥优先级使能屏蔽链**）
 * `encoder_16to4_gemini`：优化版行波互斥优先级仲裁编码器
 
@@ -59,9 +62,8 @@
 ### 6. 反码运算与转换系统
 * `SignMagnitude_To_OnesComplement_Converter`：**原码-反码双向原子转换核**（3 个异或门实现正数直通、负数数值按位取反）
 * `OnesComplementAdder`：4 位反码加法器系统（输入反码 $\to$ 转原码 $\to$ 复用 `SMA_4bit_1` 核心 $\to$ 转回反码）
-* `OnesComplementAdder_1`：**纯门级循环进位反码加法器**（双级 RCA 级联，基于作者自主推导的自适应补偿公式 $\text{AddOne} = (A_3 \cdot B_3) \lor ((A_3 \oplus B_3) \cdot \overline{S_3})$，100% 满分通过）
+* `OnesComplementAdder_1`：**纯门级循环进位反码加法器**（双级 RCA 级联，基于自适应补偿公式 $\text{AddOne} = (A_3 \cdot B_3) \lor ((A_3 \oplus B_3) \cdot \overline{S_3})$，100% 满分通过）
 * `OnesComplementAdder_2`：**精简架构反码加法器**（基于硬件模数数学定理，将首级 RCA 的 $C_{out}$ 直接作为二级加法器末位进位 +1，架构精炼，200/200 满分通过）
-* `OnesComplementAdder_PureGateLevel`：**全展开纯门级反码加法器**（零子电路封装，40 个基础逻辑门、240 根排线完全展开，200/200 满分通过）
 
 ### 7. 补码与溢出检测系统 (ALU 核心)
 * `adder_4bit_overflow`：双加法器溢出探索电路（打补丁式设计演进归档）
@@ -72,14 +74,25 @@
 * `SR_Latch_1`：带使能控制端的门控 SR 锁存器（深入剖析亚稳态震荡微观成因）
 * `D_Latch`：D 锁存器（强制 $S=D, R=\overline{D}$ 杜绝非法输入态）
 * `DFF`：**主从边沿触发 D 触发器**（双级 D 锁存器反相时钟级联，彻底消除电平透明性）
-* `DFF_1`：带异步/同步复位控制的 D 触发器
+* `DFF_1`：带同步/异步复位控制的 D 触发器
 * `DFF_2`：带手动步进脉冲按键接口（Button）的 D 触发器
-* `DFF_3`：带使能装载控制（Load Enable）的工程化 D 触发器
+* `DFF_3`：**带自反馈使能保持（Load Enable）的工程化 D 触发器**（通过 MUX 实现 $EN=0$ 保持原值、$EN=1$ 锁存新值）
 * `DFF_reverse`：**无振荡位翻转器**（利用主从 DFF 实现 $D = \overline{Q}$ 闭环，稳定 2 分频计数器原型）
 
-### 9. 寄存器与有限状态机系统 (最新主线)
-* `Register_4bit`：**4 位并行数据寄存器**（4 组 `DFF_3` 阵列 + `seven_code_16_trans` 十六进制动态数码管显示驱动）
-* **`Counter_4bit` (★ 最新系统级主电路)**：**4 位自闭环同步计数器系统**（`Register_4bit` 现态输出 $\to$ `adder_4bit_overflow_true` 增量 $+1$ $\to$ 次态写回，带步进按键与溢出监测）
+### 9. 寄存器与多位同步计数器系统
+* `Register_4bit`：4 位并行数据寄存器（4 组 `DFF_3` 阵列 + `seven_code_16_trans` 十六进制动态数码管显示驱动）
+* `Counter_4bit`：4 位自闭环同步计数器系统（`Register_4bit` 现态输出 $\to$ `adder_4bit_overflow_true` 增量 $+1$ $\to$ 次态写回）
+* `Register_8bit`：**8 位并行数据寄存器**（双 `Register_4bit` 级联，支持统一使能与双数码管直读 `0x00`~`0xFF`）
+* `adder_8bit`：**8 位行波进位全加器**（双 `adder_4bit` 级联，进位链无缝贯通）
+* `Counter_8bit`：**8 位工业级全同步计数器**（内置 4 选 1 MUX，完备实现保持、递增、清零状态转移，复位 CLR 具有最高优先级）
+
+### 10. 系统级微架构与算法/时钟应用（F3 终极收官里程碑）
+* **`Sequence_1to10`（自然数 1~10 累加求和系统）**：
+  * 基于 `Counter_8bit`（步进序列生成器）、`adder_8bit`（累加核心）与 `Register_8bit`（累加状态寄存器）构成的闭环数据通路；
+  * 全硬件自动执行 $1 + 2 + \dots + 10 = 55$（十六进制 `0x37`），完美验证状态机与数据通路的闭环协同。
+* **`Clock_digital`（60进制工业级数字钟系统）**：
+  * 秒/分级联多位数字钟，驱动 4 组数码管实时呈现时间；
+  * **单全局 1 Hz 时钟树**驱动，基于“在稳态 59 处前瞻采样预判”的现代时序逻辑架构，彻底消除“60 自杀式毛刺回环”，实现零毛刺、零冒险的纯同步分级使能与清零。
 
 ---
 
@@ -87,5 +100,5 @@
 
 1. 打开 [Logisim-evolution](https://github.com/logisim-evolution/logisim-evolution) (4.1.0 或以上版本)；
 2. 选择 `File -> Open`，打开 `or_gemini.circ` 或 `digital_circuits.circ`；
-3. 工程默认已将 **`OnesComplementAdder`** 设为主电路，双击即可进入查看顶层交互原理图；
-4. 按快捷键 `Alt + 1` (Poke Tool) 拨动输入引脚的二进制值，观察七段数码管动态计算与显示。
+3. 双击左侧电路树中的任意电路（例如 `Clock_digital` 或 `Sequence_1to10`）进入交互原理图；
+4. 按快捷键 `Ctrl + K` 开启自动时钟走拍，或按快捷键 `Alt + 1` (Poke Tool) 拨动输入引脚/按键观察电路行为。
